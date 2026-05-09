@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { autoResizeTextarea, checkEnvironment, setLoading } from "./utils.js";
+import { marked, Marked } from "marked";
 checkEnvironment();
 
 // Initialize an OpenAI client for your provider using env vars
@@ -55,11 +56,11 @@ async function handleGiftRequest(e) {
     });
 
     // Extract gift suggestions from the assistant message's content
-    const giftSuggestions = response.choices[0].message.content;
+    const giftSuggestions = marked.parse(response.choices[0].message.content)
     console.log(giftSuggestions);
 
     // Display the gift suggestions
-    outputContent.textContent = giftSuggestions;
+    outputContent.innerHTML = giftSuggestions;
   } catch (error) {
     console.error(error.message)
     outputContent.textContent = "This Model does not exist or you do not have access to it"
