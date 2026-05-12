@@ -4,7 +4,7 @@
 export function checkEnvironment() {
   if (!process.env.AI_URL) {
     throw new Error(
-      "Missing AI_URL. This tells us which AI provider you're using."
+      "Missing AI_URL. This tells us which AI provider you're using.",
     );
   }
   if (!process.env.AI_MODEL) {
@@ -66,4 +66,3 @@ export function showStream() {
   outputContainer.classList.remove("hidden");
   outputContainer.classList.add("visible");
 }
-

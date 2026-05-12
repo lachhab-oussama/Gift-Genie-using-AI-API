@@ -1,7 +1,12 @@
 import OpenAI from "openai";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
-import { checkEnvironment, autoResizeTextarea, setLoading, showStream } from "./utils.js";
+import {
+  checkEnvironment,
+  autoResizeTextarea,
+  setLoading,
+  showStream,
+} from "./utils.js";
 import { messages } from "./systemMessage.js";
 
 checkEnvironment();
@@ -38,7 +43,7 @@ async function handleGiftRequest(e) {
   // Add user message to global messages array
   messages.push({
     role: "user",
-    content: `Generate fresh gift ideas for this new user request: ${userPrompt}`
+    content: `Generate fresh gift ideas for this new user request: ${userPrompt}`,
   });
 
   try {
