@@ -24,8 +24,6 @@ function start() {
   giftForm.addEventListener("submit", handleGiftRequest);
 }
 
-
-
 async function handleGiftRequest(e) {
   // Prevent default form submission
   e.preventDefault();
@@ -38,9 +36,10 @@ async function handleGiftRequest(e) {
   setLoading(true);
 
   // Add user message to global messages array
-  messages.push({ 
-    role: "user", 
-    content: `Generate fresh gift ideas for this new user request: ${userPrompt}` });
+  messages.push({
+    role: "user",
+    content: `Generate fresh gift ideas for this new user request: ${userPrompt}`
+  });
 
   try {
     // Enable streaming in the chat completions request
