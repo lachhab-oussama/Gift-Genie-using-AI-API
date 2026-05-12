@@ -1,7 +1,13 @@
 import OpenAI from "openai";
-import { autoResizeTextarea, checkEnvironment, setLoading } from "./utils.js";
-import { marked, Marked } from "marked";
+import { marked } from "marked";
 import DOMPurify from "dompurify";
+import {
+  checkEnvironment,
+  autoResizeTextarea,
+  setLoading,
+  showStream,
+} from "./utils.js";
+
 checkEnvironment();
 
 // Initialize an OpenAI client for your provider using env vars
@@ -16,12 +22,6 @@ const giftForm = document.getElementById("gift-form");
 const userInput = document.getElementById("user-input");
 const outputContent = document.getElementById("output-content");
 
-function start() {
-  // Setup UI event listeners
-  userInput.addEventListener("input", () => autoResizeTextarea(userInput));
-  giftForm.addEventListener("submit", handleGiftRequest);
-}
-
 // Initialize messages array with system prompt
 const messages = [
   {
@@ -29,11 +29,17 @@ const messages = [
     content: `You are the Gift Genie!
     Make your gift suggestions thoughtful and practical.
     The user will describe the gift's recipient. 
-    Your response must be under 100 words. 
+    Your response must be 1000 words. 
     Skip intros and conclusions. 
     Only output gift suggestions.`,
   },
 ];
+
+function start() {
+  // Setup UI event listeners
+  userInput.addEventListener("input", () => autoResizeTextarea(userInput));
+  giftForm.addEventListener("submit", handleGiftRequest);
+}
 
 async function handleGiftRequest(e) {
   // Prevent default form submission
@@ -43,7 +49,7 @@ async function handleGiftRequest(e) {
   const userPrompt = userInput.value.trim();
   if (!userPrompt) return;
 
-  // Set loading state
+  // Set loading state (hides output, animates lamp)
   setLoading(true);
 
   // Add user message to global messages array
@@ -51,25 +57,45 @@ async function handleGiftRequest(e) {
 
   try {
     // Send a chat completions request and await its response
-    const response = await openai.chat.completions.create({
+    const stream = await openai.chat.completions.create({
       model: process.env.AI_MODEL,
       messages,
+      stream: true
     });
 
-    // Extract gift suggestions from the assistant message's content
-    const giftSuggestions = DOMPurify.sanitize(marked.parse(response.choices[0].message.content))
-    console.log(giftSuggestions);
+    let giftSuggestions = ""
 
-    // Display the gift suggestions
-    outputContent.innerHTML = giftSuggestions;
-  } catch (error) {
-    console.error(error.message)
-    outputContent.textContent = "This Model does not exist or you do not have access to it"
+    // Show output container immediately for streaming feedback
+    showStream();
+
+    for await (const chunk of stream) {
+      const chunkContent = chunk.choices[0].delta.content
+
+      if (!chunkContent) continue
+
+      giftSuggestions += chunkContent
+
+      // Convert Markdown to HTML
+      const html = marked.parse(giftSuggestions);
+
+      // Sanitize the HTML
+      const safeHTML = DOMPurify.sanitize(html);
+
+      // Display the sanitized HTML
+      outputContent.innerHTML = safeHTML;
+    }
+
+  } catch (err) {
+    // Log the error for debugging
+    console.error(err);
+
+    // Display friendly error message
+    outputContent.textContent =
+      "Sorry, I can't access what I need right now. Please try again in a bit.";
   } finally {
-    // Clear loading state
+    // Always clear loading state (shows output, resets lamp)
     setLoading(false);
   }
-
 }
 
 start();
