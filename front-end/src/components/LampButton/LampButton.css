@@ -1,0 +1,208 @@
+/* ==========================================================================
+   LampButton Component — Dramatic Centerpiece
+   ========================================================================== */
+
+.lamp-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: var(--space-2xl) 0 var(--space-lg);
+  transition: all var(--transition-smooth);
+  animation: fadeInUp 0.6s var(--ease-out-expo) 0.6s both;
+}
+
+/* Button base */
+.lamp-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition-quick);
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  padding: var(--space-md);
+}
+
+.lamp-btn:hover,
+.lamp-btn:focus,
+.lamp-btn:active {
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+}
+
+.lamp-btn:disabled {
+  opacity: 1;
+  cursor: default;
+  background: transparent;
+}
+
+/* Lamp icon container */
+.lamp-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Lamp SVG image */
+.lamp-icon-img {
+  width: 156px;
+  height: 156px;
+  filter: drop-shadow(0 0 12px rgba(212, 168, 67, 0.35));
+  transition: all var(--transition-smooth);
+}
+
+/* Hover effects — scale, rotate, intensify glow */
+.lamp-btn:hover .lamp-icon-img {
+  transform: scale(1.12) rotate(-5deg);
+  filter: drop-shadow(0 0 28px rgba(240, 208, 106, 0.5))
+         drop-shadow(0 0 60px rgba(212, 168, 67, 0.2));
+}
+
+/* Lamp text label */
+.lamp-text {
+  font-family: var(--font-body);
+  color: var(--text-secondary);
+  font-size: 1.35rem;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+  transition: all var(--transition-smooth);
+  white-space: nowrap;
+}
+
+.lamp-btn:hover .lamp-text {
+  color: var(--accent-primary);
+  opacity: 1;
+}
+
+/* ---------- Particle System (CSS-only golden smoke) ---------- */
+
+.lamp-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-glow), transparent);
+  opacity: 0;
+  top: 30%;
+  left: 50%;
+}
+
+/* Particles only animate on hover */
+.lamp-btn:hover .particle--1 {
+  animation: floatParticle 1.8s ease-out infinite;
+  animation-delay: 0s;
+  left: 40%;
+}
+
+.lamp-btn:hover .particle--2 {
+  animation: floatParticle 2.2s ease-out infinite;
+  animation-delay: 0.3s;
+  left: 55%;
+  width: 4px;
+  height: 4px;
+}
+
+.lamp-btn:hover .particle--3 {
+  animation: floatParticle 1.6s ease-out infinite;
+  animation-delay: 0.6s;
+  left: 48%;
+  width: 8px;
+  height: 8px;
+}
+
+.lamp-btn:hover .particle--4 {
+  animation: floatParticle 2s ease-out infinite;
+  animation-delay: 0.9s;
+  left: 35%;
+  width: 3px;
+  height: 3px;
+}
+
+.lamp-btn:hover .particle--5 {
+  animation: floatParticle 2.4s ease-out infinite;
+  animation-delay: 1.2s;
+  left: 60%;
+  width: 5px;
+  height: 5px;
+}
+
+/* ---------- Compact State (after results shown) ---------- */
+
+.lamp-btn.compact .lamp-icon-img {
+  width: 88px;
+  height: 88px;
+}
+
+.lamp-btn.compact .lamp-text {
+  font-size: 0.95rem;
+  opacity: 0.6;
+}
+
+.lamp-btn.compact:hover .lamp-text {
+  opacity: 1;
+}
+
+/* ---------- Loading State ---------- */
+
+.lamp-btn.loading .lamp-icon-img {
+  animation: rubLamp 0.7s ease-in-out infinite;
+}
+
+.lamp-btn.loading .lamp-text {
+  background: linear-gradient(
+    90deg,
+    var(--text-secondary) 0%,
+    var(--accent-glow) 50%,
+    var(--text-secondary) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 2s linear infinite;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 480px) {
+  .lamp-container {
+    margin: var(--space-xl) 0 var(--space-md);
+  }
+
+  .lamp-icon-img {
+    width: 128px;
+    height: 128px;
+  }
+
+  .lamp-text {
+    font-size: 1.25rem;
+  }
+
+  .lamp-btn.compact .lamp-icon-img {
+    width: 68px;
+    height: 68px;
+  }
+
+  .lamp-btn.compact .lamp-text {
+    font-size: 0.9rem;
+  }
+
+  .lamp-btn {
+    padding: var(--space-sm);
+  }
+}

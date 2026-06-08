@@ -1,12 +1,7 @@
 import OpenAI from "openai";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
-import {
-  checkEnvironment,
-  autoResizeTextarea,
-  setLoading,
-  showStream,
-} from "./utils.js";
+import { checkEnvironment } from "./Utils/checkEnvironment.js";
 import { messages } from "./systemMessage.js";
 
 checkEnvironment();
@@ -18,10 +13,6 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-// Get UI elements
-const giftForm = document.getElementById("gift-form");
-const userInput = document.getElementById("user-input");
-const outputContent = document.getElementById("output-content");
 
 function start() {
   // Setup UI event listeners
@@ -33,12 +24,6 @@ async function handleGiftRequest(e) {
   // Prevent default form submission
   e.preventDefault();
 
-  // Get user input, trim whitespace, exit if empty
-  const userPrompt = userInput.value.trim();
-  if (!userPrompt) return;
-
-  // Set loading state (hides output, animates lamp)
-  setLoading(true);
 
   // Add user message to global messages array
   messages.push({
@@ -53,9 +38,6 @@ async function handleGiftRequest(e) {
       messages,
       stream: true,
     });
-
-    // Show output container immediately for streaming feedback
-    showStream();
 
     // Accumulate the streamed response
     let giftSuggestions = "";
@@ -80,15 +62,11 @@ async function handleGiftRequest(e) {
 
     console.log(giftSuggestions);
   } catch (error) {
-    // Log the error for debugging
     console.error(error);
 
     // Display friendly error message
     outputContent.textContent =
       "Sorry, I can't access what I need right now. Please try again in a bit.";
-  } finally {
-    // Always clear loading state (shows output, resets lamp)
-    setLoading(false);
   }
 }
 

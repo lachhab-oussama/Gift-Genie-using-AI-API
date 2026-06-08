@@ -1,0 +1,182 @@
+/* ==========================================================================
+   OutputDisplay Component
+   ========================================================================== */
+
+.output-section {
+  margin-top: 1.5rem;
+  padding-bottom: var(--space-2xl);
+}
+
+.output-container {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.6s var(--ease-out-expo),
+    transform 0.6s var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.output-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Content wrapper */
+.output-content {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text-primary);
+  position: relative;
+}
+
+/* Streaming cursor indicator */
+.output-content.streaming::after {
+  content: '▍';
+  display: inline;
+  color: var(--accent-primary);
+  animation: glowPulse 1s ease-in-out infinite;
+  margin-left: 2px;
+}
+
+/* ---------- Markdown Styling ---------- */
+
+/* Paragraphs */
+.output-content p {
+  margin-bottom: 0.5em;
+}
+
+/* Lists */
+.output-content ul,
+.output-content ol {
+  padding-left: 1.25em;
+  margin: 0.4em 0;
+}
+
+.output-content ul {
+  list-style-type: disc;
+}
+
+.output-content ol {
+  list-style-type: decimal;
+}
+
+.output-content li {
+  margin-bottom: 0.25em;
+  padding-left: 0.3em;
+}
+
+.output-content li::marker {
+  color: var(--accent-glow);
+}
+
+/* Headings */
+.output-content h2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid rgba(212, 168, 67, 0.15);
+  padding-bottom: 0.3em;
+}
+
+.output-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 1em;
+  margin-bottom: 0.3em;
+  color: var(--accent-primary);
+  letter-spacing: 0.02em;
+}
+
+.output-content h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.7em;
+  margin-bottom: 0.2em;
+  color: var(--accent-glow);
+}
+
+/* Horizontal rules */
+.output-content hr {
+  border: none;
+  height: 1px;
+  margin: 1.2em 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 168, 67, 0.2),
+    transparent
+  );
+}
+
+/* Strong text */
+.output-content strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Emphasis */
+.output-content em {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* Links */
+.output-content a {
+  color: var(--accent-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-quick);
+}
+
+.output-content a:hover {
+  color: var(--accent-hover);
+}
+
+/* ---------- Error State ---------- */
+
+.output-error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  border: 1px solid rgba(200, 100, 80, 0.2);
+  border-radius: var(--radius-md);
+  background: rgba(200, 100, 80, 0.05);
+}
+
+.error-icon {
+  font-size: 1.2rem;
+  color: rgba(220, 130, 100, 0.8);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.output-error p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: rgba(220, 180, 160, 0.9);
+  line-height: 1.6;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 480px) {
+  .output-content {
+    font-size: 1.05rem;
+  }
+
+  .output-content h2 {
+    font-size: 1.15rem;
+  }
+
+  .output-content h3 {
+    font-size: 1rem;
+  }
+}

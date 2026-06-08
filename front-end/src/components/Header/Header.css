@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Header Component
+   ========================================================================== */
+
+.app-header {
+  text-align: center;
+  padding: var(--space-2xl) 0 var(--space-lg);
+  animation: fadeInDown 0.8s var(--ease-out-expo);
+  position: relative;
+}
+
+/* Decorative accent lines */
+.header-accent-line {
+  width: 60px;
+  height: 1px;
+  margin: 0 auto var(--space-lg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-primary),
+    transparent
+  );
+  animation: revealLine 1s var(--ease-out-expo) 0.3s both;
+}
+
+.header-accent-line--bottom {
+  margin: var(--space-lg) auto 0;
+  animation-delay: 0.5s;
+  opacity: 0.5;
+}
+
+/* Title group layout */
+.title-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+}
+
+/* Genie icon */
+.genie-icon-img {
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(0 0 12px rgba(212, 168, 67, 0.4));
+  animation: subtleDrift 4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* Title text container */
+.title-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+/* Main title */
+.app-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary) 0%,
+    var(--accent-hover) 40%,
+    var(--accent-warm) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Tagline */
+.tagline {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  opacity: 0;
+  animation: fadeInUp 0.6s var(--ease-out-expo) 0.6s forwards;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: var(--space-xl) 0 var(--space-md);
+  }
+
+  .genie-icon-img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .title-group {
+    gap: var(--space-md);
+  }
+
+  .tagline {
+    font-size: 0.85rem;
+  }
+}

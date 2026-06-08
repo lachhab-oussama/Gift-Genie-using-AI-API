@@ -1,0 +1,224 @@
+/* ==========================================================================
+   Gift Genie — Global Design System
+   Aesthetic: "Mystic Bazaar" — enchanted, atmospheric, theatrical
+   ========================================================================== */
+
+/* ---------- Design Tokens ---------- */
+:root {
+  /* Background — deep midnight indigo */
+  --bg-primary: #0a0b14;
+  --bg-surface: rgba(15, 16, 30, 0.6);
+
+  /* Accent System — Rich Golden Amber */
+  --accent-primary: #d4a843;
+  --accent-glow: #e6be5a;
+  --accent-hover: #f0d06a;
+  --accent-warm: #c48a2a;
+  --accent-deep: #8b6914;
+
+  /* Violet undertones */
+  --violet-subtle: rgba(120, 80, 180, 0.15);
+  --violet-glow: rgba(140, 100, 200, 0.08);
+
+  /* Text */
+  --text-primary: #ede8df;
+  --text-secondary: rgba(210, 200, 185, 0.7);
+  --text-muted: rgba(180, 170, 155, 0.45);
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
+
+  /* Typography */
+  --font-display: 'Poppins', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+
+  /* Borders & Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* Shadows */
+  --shadow-glow: 0 0 30px rgba(212, 168, 67, 0.15);
+  --shadow-deep: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  /* Animation */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-quick: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.4s var(--ease-out-expo);
+  --transition-slow: 0.8s var(--ease-out-expo);
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- Body & Atmosphere ---------- */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Atmospheric background — gradient mesh + grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(120, 80, 180, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 80% 90%, rgba(212, 168, 67, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 90% 70% at 50% 50%, rgba(15, 12, 30, 1) 0%, var(--bg-primary) 100%);
+  pointer-events: none;
+}
+
+/* Film grain noise texture */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+  pointer-events: none;
+}
+
+/* ---------- Selection ---------- */
+::selection {
+  background: rgba(212, 168, 67, 0.3);
+  color: var(--text-primary);
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 168, 67, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 168, 67, 0.4);
+}
+
+/* ---------- Keyframe Animations ---------- */
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rubLamp {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
+    filter: drop-shadow(0 0 8px var(--accent-glow));
+  }
+  25% {
+    transform: rotate(-12deg) translate(-6px, -2px);
+  }
+  50% {
+    transform: rotate(0deg) translate(0, 0);
+    filter: drop-shadow(0 0 40px var(--accent-hover));
+  }
+  75% {
+    transform: rotate(12deg) translate(6px, -2px);
+  }
+  100% {
+    transform: rotate(0deg) translate(0, 0);
+    filter: drop-shadow(0 0 8px var(--accent-glow));
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes floatParticle {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(0);
+  }
+}
+
+@keyframes subtleDrift {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes revealLine {
+  from {
+    width: 0;
+  }
+  to {
+    width: 60px;
+  }
+}
