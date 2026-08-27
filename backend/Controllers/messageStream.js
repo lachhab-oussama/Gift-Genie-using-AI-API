@@ -1,30 +1,33 @@
-import { messages } from '../Utils/systemMessage.js'
-import { openai } from '../Utils/InitializeAiProvider.js'
-import { marked } from 'marked';
 import { JSDOM } from 'jsdom';
+import { marked } from 'marked';
 import createDOMPurify from 'dompurify';
+import { messages } from '../Utils/systemMessage.js'
+import { groq } from '../Utils/InitializeAiProvider.js'
+
+async function getGroqChatCompletion() 
+{
+    return groq.chat.completions.create({
+        messages,
+        model: "openai/gpt-oss-20b",
+    });
+}
 
 export const messageStream = async (req, res) => {
 
     const window = new JSDOM('').window;
     const DOMPurify = createDOMPurify(window);
-
     const userPrompt = String(req.query.userPrompt ?? '').trim();
-
+    console.log(userPrompt);
     if (!userPrompt) {
         return res.status(400).json({ message: 'userPrompt is required' });
     }
-
     messages.push({
         role: "user",
         content: `Generate fresh gift ideas for this new user request: ${userPrompt}`,
     });
 
     try {
-        const response = await openai.chat.completions.create({
-            model: process.env.AI_MODEL,
-            messages,
-        });
+        const response = await getGroqChatCompletion();
 
         const content = response.choices[0]?.message?.content ?? '';
         const html = marked.parse(content);

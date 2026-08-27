@@ -1,18 +1,20 @@
+import './App.css';
+import { getMessage } from './api/route.ts'
 import { useState, useCallback } from 'react';
 import Header from './components/Header/Header';
 import GiftForm from './components/GiftForm/GiftForm';
 import LampButton from './components/LampButton/LampButton';
 import OutputDisplay from './components/OutputDisplay/OutputDisplay';
-import './App.css';
 
-export default function App() {
+export default function App() 
+{
   const [inputValue, setInputValue] = useState('');
   const [streamedContent, setStreamedContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isCompact, setIsCompact] = useState(false);
   const [error, setError] = useState(null);
 
-  const requestGifts = useCallback( async (prompt) => {
+  const requestGifts = useCallback(async (prompt) => {
     if (!prompt.trim()) return;
 
     try {
@@ -20,20 +22,18 @@ export default function App() {
       setError(null);
       setStreamedContent('');
 
-      const response = await fetch(`http://localhost:3011/api/gen-gift?userPrompt=${encodeURIComponent(prompt)}`)
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
+      const data = await getMessage(prompt);
       setStreamedContent(data.safeHTML);
       setIsCompact(true);
-    } catch (error) {
+    }
+    catch (error) 
+    {
       setError(error.message || 'An unexpected error occurred');
-    } finally {
+    }
+    finally 
+    {
       setIsLoading(false);
     }
-
   }, []);
 
   const handleSubmit = useCallback((value) => {

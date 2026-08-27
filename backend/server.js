@@ -8,7 +8,7 @@ const app = express();
 const PORT = 3011;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors('http://localhost:5173'));
 
 checkEnvironment();
 
