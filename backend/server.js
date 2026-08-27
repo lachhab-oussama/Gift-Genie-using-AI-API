@@ -5,7 +5,7 @@ import { apiRouter } from './Routes/apiRoutes.js'
 import { checkEnvironment } from './Utils/checkEnvironment.js';
 
 const app = express();
-const PORT = 3000;
+const PORT = 3011;
 
 app.use(express.json());
 app.use(cors());

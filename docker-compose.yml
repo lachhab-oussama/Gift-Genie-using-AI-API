@@ -1,0 +1,32 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: frontend:v1
+    container_name: frontend
+    environment:
+      - name=value
+    ports:
+      - "5173:80"
+    networks:
+      - gift-network
+    restart: always
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: backend:v1
+    container_name: backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3011:3011"
+    networks:
+      - gift-network
+    restart: always
+
+
+networks:
+  gift-network:
+

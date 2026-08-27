@@ -20,7 +20,7 @@ export default function App() {
       setError(null);
       setStreamedContent('');
 
-      const response = await fetch(`http://localhost:3000/api/gen-gift?userPrompt=${encodeURIComponent(prompt)}`)
+      const response = await fetch(`http://localhost:3011/api/gen-gift?userPrompt=${encodeURIComponent(prompt)}`)
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
